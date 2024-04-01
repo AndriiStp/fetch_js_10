@@ -30,4 +30,8 @@ function renderSelectBreeds() {
 function onSelect(e) {
   const breedId = breedsSelect.value;
   console.log(breedId);
+
+  fetchCatByBreed(breedId).then(data => {
+    catInfo.innerHTML(createMarkup());
+  });
 }
