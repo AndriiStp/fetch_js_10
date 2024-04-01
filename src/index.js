@@ -11,22 +11,23 @@ let breedsList = [];
 
 fetchBreeds()
   .then(data => {
-    data.map(breed => {
-      breedsList.push({ text: breed.name, value: breed.id });
+    data.forEach(breed => {
+      breedsList.push({ value: breed.id, text: breed.name });
       renderSelectBreeds();
     });
   })
   .catch(err => console.log(err));
 
-function onSelect(e) {
-  const breedId = e.target.value;
-}
-
 function renderSelectBreeds() {
   breedsList.forEach(breed => {
     const option = document.createElement('option');
-    option.textContent = breed.text;
     option.value = breed.id;
+    option.textContent = breed.text;
     breedsSelect.appendChild(option);
   });
+}
+
+function onSelect(e) {
+  const breedId = breedsSelect.value;
+  console.log(breedId);
 }
