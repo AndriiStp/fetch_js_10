@@ -39,26 +39,62 @@
 //   .then(response => response.json())
 //   .then(json => console.log(json));
 
-post = {
-  title: 'kjsdhf sdjklfh ksdjhfksjdhfkjdsfh',
-  body: 'kjsdhfkjsdhfhdsjkfh ksdjhfkdshfkjdshf ; ;lwahgadhgo;dffhg;oshdf',
-  userId: 12,
-};
+// post = {
+//   title: 'kjsdhf sdjklfh ksdjhfksjdhfkjdsfh',
+//   body: 'kjsdhfkjsdhfhdsjkfh ksdjhfkdshfkjdshf ; ;lwahgadhgo;dffhg;oshdf',
+//   userId: 12,
+// };
 
-const options = {
-  method: 'POST',
-  headers: {
-    'Content-type': 'application/json',
-  },
-  body: JSON.stringify(post),
-};
+const addPost = document.querySelector('.js-add');
+const postList = document.querySelector('.js-posts');
+const formWrapper = document.querySelector('.formWrapper');
 
-fetch('https://jsonplaceholder.typicode.com/posts', options)
-  .then(resp => {
+addPost.addEventListener('click', handlerOpenPost);
+
+function handlerOpenPost() {
+  const markup = `<form class="js-form" action="submit">
+  <input type="text" name="title">
+  <textarea type="text" name="body"></textarea>
+    <button type="submit">ADD</button>
+</form>`;
+  formWrapper.innerHTML = markup;
+
+  const form = document.querySelector('.js-form');
+  form.addEventListener('submit', onSubmitPostForm);
+}
+
+function onSubmitPostForm(e) {
+  e.preventDefault();
+  const { title, body } = e.currentTarget.elements;
+  console.log(e.currentTarget.elements);
+  const data = {
+    title: title.value,
+    body: body.value,
+  };
+
+  addComment(data).then(obj => console.log(obj));
+}
+
+async function addComment(data) {
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const resp = await fetch(
+      'https://jsonplaceholder.typicode.com/posts',
+      options
+    );
     if (!resp.ok) {
       throw new Error(resp.statusText);
     }
-    return resp.json;
-  })
-  .then(data => console.log(data))
-  .catch(err => console.log(err));
+    const data_1 = resp.json;
+    return console.log(data_1);
+  } catch (err) {
+    return console.log(err);
+  }
+}
