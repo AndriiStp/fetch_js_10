@@ -100,12 +100,17 @@
 // }
 
 async function getCapital() {
-  const URL = 'https://restcountries.com/v3.1/name/';
-
-  const resp = await fetch(`${URL}Ukraine`);
-  console.log(resp);
-  const data = await resp.json();
-  console.log(data);
+  try {
+    const URL = 'https://restcountries.com/v3.1/name/';
+    const resp = await fetch(`${URL}Ukraine`);
+    if (!resp.ok) {
+      throw new Error(resp.statusText);
+    }
+    const data = await resp.json();
+    console.log(data);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 getCapital();
